@@ -76,7 +76,7 @@ const List = () => {
       <div>
         <ListDiv>
           <NavLink
-            to={"/free"}
+            to={"/"}
             style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
           >
             자유게시판

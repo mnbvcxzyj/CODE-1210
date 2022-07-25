@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import data from "./data.json";
 import List from "./List";
+import { useState } from "react";
 
 const ListLineImg = styled.img`
   position: absolute;
@@ -62,9 +63,9 @@ const ContentDiv = styled.div`
 const LikeDiv = styled.div`
   position: relative;
   width: 17px;
-  height: 31px;
+  height: 25px;
   left: 1585px;
-
+  top: -58px;
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
@@ -77,18 +78,36 @@ const LikeDiv = styled.div`
   opacity: 0.55;
 `;
 
-const Board = () => {
+const LikeImg = styled.img`
+  position: relative;
+  width: 23px;
+  top: -30px;
+  height: 20px;
+  left: 1490px;
+
+  cursor: pointer;
+`;
+
+const Board = ({ value }) => {
+  const [like, setLike] = useState(false);
+
+  const newData = data.filter((list) => list.type === parseInt(value));
+
   return (
     <>
       <List />
       <ListLineImg src="img/ListLine.png" />
       <ListTextImg src="img/list.png" />
       <TextDiv>
-        {data.map((list) => (
+        {newData.map((list) => (
           <div>
-            <TextNum>{list.num}</TextNum>
-            <ContentDiv>{list.text}</ContentDiv>
-            <LikeDiv>{list.like}</LikeDiv>
+            <TextNum>{list["id"]}</TextNum>
+            <ContentDiv>{list["text"]}</ContentDiv>
+            <LikeImg
+              onClick={setLike}
+              src={like ? "img/Like.png" : "img/SelectLike.png"}
+            />
+            <LikeDiv>{list["like"]}</LikeDiv>
           </div>
         ))}
       </TextDiv>

@@ -17,10 +17,10 @@ const App = () => {
       <Write />
 
       <Routes>
-        <Route path={"/free"} element={<Board />}></Route>
-        <Route path={"/question"} element={<Board />}></Route>
-        <Route path={"/tip"} element={<Board />}></Route>
-        <Route path={"/error"} element={<Board />}></Route>
+        <Route path={"/"} element={<Board value="1" />}></Route>
+        <Route path={"/question"} element={<Board value="2" />}></Route>
+        <Route path={"/tip"} element={<Board value="3" />}></Route>
+        <Route path={"/error"} element={<Board value="4" />}></Route>
       </Routes>
 
       <Footer />
