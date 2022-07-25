@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import data from "./data.json";
 import List from "./List";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const ListLineImg = styled.img`
   position: absolute;
@@ -57,6 +57,8 @@ const ContentDiv = styled.div`
 
   color: #181818;
 
+  cursor: pointer;
+
   opacity: 0.7;
 `;
 
@@ -89,9 +91,22 @@ const LikeImg = styled.img`
 `;
 
 const Board = ({ value }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleOpen = () => {
+    setIsOpen((isOpen) => !isOpen);
+  };
+
   const [like, setLike] = useState(false);
 
   const newData = data.filter((list) => list.type === parseInt(value));
+
+  const [inputText, setInputText] = useState(data);
+
+  const onRemove = useCallback(
+    (id) =>
+      setInputText(setInputText.filter((onInputText) => onInputText.id !== id)),
+    [inputText]
+  );
 
   return (
     <>
@@ -102,7 +117,7 @@ const Board = ({ value }) => {
         {newData.map((list) => (
           <div>
             <TextNum>{list["id"]}</TextNum>
-            <ContentDiv>{list["text"]}</ContentDiv>
+            <ContentDiv onClick={() => toggleOpen()}>{list["text"]}</ContentDiv>
             <LikeImg
               onClick={setLike}
               src={like ? "img/Like.png" : "img/SelectLike.png"}

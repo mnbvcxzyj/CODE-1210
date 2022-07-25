@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import React, { useCallback, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import data from "./data.json";
 
 export const InputDiv = styled.div`
   position: relative;
@@ -146,12 +147,7 @@ export const CheckBox = styled.input`
 `;
 
 const Write = ({ onInsert }) => {
-  const navigate = useNavigate();
-
-  const [checkItems, setCheckItems] = useState();
-  const [value, setValue] = useState({
-    content: "",
-  });
+  const [value, setValue] = useState();
 
   const onSubmit = useCallback(
     (e) => {
@@ -174,11 +170,40 @@ const Write = ({ onInsert }) => {
     }
   };
 
+  const number = useRef(data.length + 1);
+  const [inputText, setInputText] = useState(data);
+  const [checked, setChecked] = useState(false);
+
+  const changeCheck = (e) => {
+    const { check } = e.target;
+    setChecked(check);
+  };
+
+  const onInput = useCallback(
+    (text) => {
+      const onInputText = {
+        id: number.current,
+        text,
+      };
+      setInputText(inputText.concat(onInputText));
+      number.current++;
+    },
+    [inputText]
+  );
+
+  // const onAdd = (form) => {
+  //   form.id = number.current++;
+  //   setInputText(inputText.concat(form));
+  // };
+
   return (
     <>
       <div>
         <form className="TextInsert" onSubmit={onSubmit}>
-          <InputText placeholder="지금 떠오르는 생각들을 공유해보세요!" />
+          <InputText
+            placeholder="지금 떠오르는 생각들을 공유해보세요!"
+            onChange={changeCheck}
+          />
 
           <CheckDiv>
             <CheckLabel htmlFor="free">
@@ -201,7 +226,7 @@ const Write = ({ onInsert }) => {
                 type="checkbox"
                 onChange={(e) => checkOnlyOne(e.target)}
               />
-            </CheckLabel>{" "}
+            </CheckLabel>
             &nbsp; &nbsp; &nbsp; &nbsp;
             <CheckLabel htmlFor="tip">
               꿀팁
@@ -227,7 +252,7 @@ const Write = ({ onInsert }) => {
             &nbsp; &nbsp; &nbsp; &nbsp;
           </CheckDiv>
 
-          <TextSubmit type="submit">
+          <TextSubmit type="submit" onClick={() => onInput}>
             <img src={"img/올리기.png"} width="94px" height="35px" />
           </TextSubmit>
         </form>
