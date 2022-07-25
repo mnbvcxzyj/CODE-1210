@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const InputDiv = styled.div`
@@ -145,6 +146,8 @@ export const CheckBox = styled.input`
 `;
 
 const Write = ({ onInsert }) => {
+  const navigate = useNavigate();
+
   const [checkItems, setCheckItems] = useState();
   const [value, setValue] = useState({
     content: "",
@@ -161,6 +164,16 @@ const Write = ({ onInsert }) => {
     },
     [onInsert, value]
   );
+
+  const checkOnlyOne = (checkThis) => {
+    const checkboxes = document.getElementsByName("check");
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i] !== checkThis) {
+        checkboxes[i].checked = false;
+      }
+    }
+  };
+
   return (
     <>
       <div>
@@ -170,23 +183,47 @@ const Write = ({ onInsert }) => {
           <CheckDiv>
             <CheckLabel htmlFor="free">
               자유
-              <CheckBox id="free" type="checkbox" />
-            </CheckLabel>{" "}
+              <CheckBox
+                id="free"
+                name="check"
+                value="1"
+                type="checkbox"
+                onChange={(e) => checkOnlyOne(e.target)}
+              />
+            </CheckLabel>
             &nbsp; &nbsp; &nbsp; &nbsp;
             <CheckLabel htmlFor="question">
               질문
-              <CheckBox id="question" type="checkbox" />
+              <CheckBox
+                id="question"
+                name="check"
+                value="2"
+                type="checkbox"
+                onChange={(e) => checkOnlyOne(e.target)}
+              />
             </CheckLabel>{" "}
             &nbsp; &nbsp; &nbsp; &nbsp;
             <CheckLabel htmlFor="tip">
               꿀팁
-              <CheckBox id="tip" type="checkbox" />
-            </CheckLabel>{" "}
+              <CheckBox
+                id="tip"
+                name="check"
+                value="3"
+                type="checkbox"
+                onChange={(e) => checkOnlyOne(e.target)}
+              />
+            </CheckLabel>
             &nbsp; &nbsp; &nbsp; &nbsp;
             <CheckLabel htmlFor="error">
               오류
-              <CheckBox id="error" type="checkbox" />
-            </CheckLabel>{" "}
+              <CheckBox
+                id="error"
+                name="check"
+                value="4"
+                type="checkbox"
+                onChange={(e) => checkOnlyOne(e.target)}
+              />
+            </CheckLabel>
             &nbsp; &nbsp; &nbsp; &nbsp;
           </CheckDiv>
 
