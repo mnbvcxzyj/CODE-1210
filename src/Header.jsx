@@ -13,7 +13,6 @@ const LogoImg = styled.img`
   position: absolute;
   width: 124px;
   height: 28px;
-  left: 65px;
   top: 41px;
 `;
 
